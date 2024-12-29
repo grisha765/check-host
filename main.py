@@ -14,14 +14,14 @@ async def check_port(request: Request, port: int):
 
     async def is_port_open():
         try:
-            reader, writer = await asyncio.open_connection(client_host, port)
-            writer.close()
-            await writer.wait_closed()
+            await asyncio.wait_for(asyncio.open_connection(client_host, port), timeout=5)
             return "open"
+        except asyncio.TimeoutError:
+            return "filtered"
         except ConnectionRefusedError:
             return "closed"
-        except Exception:
-            return "filtered"
+        except Exception as e:
+            return f"error: {str(e)}"
 
     status = await is_port_open()
     return {"host": client_host, "port": port, "status": status}
