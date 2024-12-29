@@ -1,11 +1,13 @@
 from fastapi import FastAPI, Request, Form
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 from ipaddress import ip_address
 import asyncio, uvicorn
 
 app = FastAPI()
 
+app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 def normalize_ip(ip: str) -> str:
@@ -27,6 +29,10 @@ async def is_port_open(client_host, port):
         return "closed"
     except Exception as e:
         return f"error: {str(e)}"
+
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    return FileResponse("static/favicon.ico")
 
 @app.get("/myip")
 async def api_get_my_ip(request: Request):
