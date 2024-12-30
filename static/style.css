@@ -164,6 +164,27 @@ footer {
     background-color: #0056b3;
 }
 
+.notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1em;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    opacity: 1;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.notification.fade-out {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+}
+
 @media (max-width: 768px) {
     main {
         margin: 10px;
