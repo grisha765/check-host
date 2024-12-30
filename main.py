@@ -59,6 +59,6 @@ async def check_port(request: Request, port: int = Form(...)):
     return templates.TemplateResponse("index.html", {"request": request, "ip": client_host, "port_status": {"port": port, "status": status}})
 
 if __name__ == '__main__':
-    port = os.getenv("PORT", "8888")
+    port = os.getenv("PORT", "8000")
     reload = os.getenv("RELOAD", "False")
     uvicorn.run("main:app", host="::", port=int(port), reload=bool(reload))
