@@ -30,6 +30,11 @@ main {
 .ip-container h2 {
     font-size: 1.5em;
     color: #007bff;
+    text-align: center;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    cursor: pointer;
 }
 
 form {
