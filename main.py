@@ -19,6 +19,14 @@ def normalize_ip(ip: str) -> str:
     except ValueError:
         return ip
 
+def get_client_ip(request: Request) -> str:
+    x_forwarded_for = request.headers.get("X-Forwarded-For")
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(",")[0].strip()
+    else:
+        ip = request.client.host
+    return normalize_ip(ip)
+
 async def is_port_open(client_host, port):
     try:
         await asyncio.wait_for(asyncio.open_connection(client_host, port), timeout=5)
@@ -36,24 +44,24 @@ async def favicon():
 
 @app.get("/myip")
 async def api_get_my_ip(request: Request):
-    client_host = normalize_ip(request.client.host)
+    client_host = get_client_ip(request)
     return {"ip": client_host}
 
 @app.get("/", response_class=HTMLResponse)
 async def get_my_ip(request: Request):
-    client_host = normalize_ip(request.client.host)
+    client_host = get_client_ip(request)
     return templates.TemplateResponse("index.html", {"request": request, "ip": client_host, "port_status": None})
 
 @app.get("/check-port/{port}")
 async def api_check_port(request: Request, port: int):
-    client_host = normalize_ip(request.client.host)
+    client_host = get_client_ip(request)
 
     status = await is_port_open(client_host, port)
     return {"host": client_host, "port": port, "status": status}
 
 @app.post("/", response_class=HTMLResponse)
 async def check_port(request: Request, port: int = Form(...)):
-    client_host = normalize_ip(request.client.host)
+    client_host = get_client_ip(request)
 
     status = await is_port_open(client_host, port)
     return templates.TemplateResponse("index.html", {"request": request, "ip": client_host, "port_status": {"port": port, "status": status}})
