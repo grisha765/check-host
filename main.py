@@ -3,7 +3,7 @@ from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from ipaddress import ip_address
-import asyncio, uvicorn
+import os, asyncio, uvicorn
 
 app = FastAPI()
 
@@ -59,4 +59,6 @@ async def check_port(request: Request, port: int = Form(...)):
     return templates.TemplateResponse("index.html", {"request": request, "ip": client_host, "port_status": {"port": port, "status": status}})
 
 if __name__ == '__main__':
-    uvicorn.run("main:app", host="::", port=8000, reload=True)
+    port = os.getenv("PORT", "8888")
+    reload = os.getenv("RELOAD", "False")
+    uvicorn.run("main:app", host="::", port=int(port), reload=bool(reload))
