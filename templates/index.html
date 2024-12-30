@@ -32,7 +32,7 @@
         {% endif %}
 
         <div class="api-guide">
-            <h3>API Guide</h3>
+            <h3>API Endpoints</h3>
             <p>To get your public IP address:</p>
             <div class="command-container">
                 <pre id="cmd-myip">curl http://{{ request.headers.host }}/myip</pre>
@@ -40,7 +40,7 @@
             </div>
             <p>To check a specific port:</p>
             <div class="command-container">
-                <pre id="cmd-check-port">curl http://{{ request.headers.host }}/check-port/&lt;port-number&gt;</pre>
+                <pre id="cmd-check-port">curl http://{{ request.headers.host }}/check-port/{{ port_status.port if port_status and port_status.port else 80 }}</pre>
                 <button class="copy-btn" data-target="cmd-check-port">Copy</button>
             </div>
         </div>
