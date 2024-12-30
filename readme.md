@@ -39,6 +39,24 @@ python3 -m venv .venv
     ghcr.io/grisha765/check-host:latest
     ```
 
+#### Proxy on nginx
+
+- Create a file /etc/nginx/sites-enabled/example.com with the lines:
+    ```json
+    server {
+        listen 80 default;
+        listen [::1]:80 default;
+        server_name example.com;
+     
+        location / {
+            proxy_pass http://[::1]:8000/;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+    }
+    ```
+
 ### Usage
 
 - Open your web browser and navigate to http://localhost:8000
