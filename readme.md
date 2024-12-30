@@ -42,7 +42,7 @@ python3 -m venv .venv
 #### Proxy on nginx
 
 - Create a file /etc/nginx/sites-enabled/example.com with the lines:
-    ```json
+    ```nginx
     server {
         listen 80 default;
         listen [::1]:80 default;
