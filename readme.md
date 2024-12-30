@@ -39,6 +39,36 @@ python3 -m venv .venv
     ghcr.io/grisha765/check-host:latest
     ```
 
+### Usage
+
+- Open your web browser and navigate to http://localhost:8000
+
+#### API Endpoints
+
+- Get your public IP:
+    ```bash
+    curl http://localhost:8000/myip
+    ```
+    - Response:
+        ```json
+        {
+            "ip": "your-public-ip"
+        }
+        ```
+
+- Check a port's status:
+    ```bash
+    curl http://localhost:8000/check-port/80
+    ```
+    - Response
+        ```json
+        {
+            "host": "your-public-ip",
+            "port": 80,
+            "status": "open/closed/filtered/error"
+        }
+        ```
+
 ### Features
 
 - Display the client's public IP address.
