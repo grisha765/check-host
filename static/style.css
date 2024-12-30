@@ -35,6 +35,13 @@ main {
     overflow-x: auto;
     white-space: nowrap;
     cursor: pointer;
+    display: inline-block;
+}
+
+.ip-container h2:active {
+    background-color: rgba(0, 123, 255, 0.1);
+    color: #0056b3;
+    border-radius: 5px;
 }
 
 form {
