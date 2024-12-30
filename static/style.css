@@ -62,7 +62,7 @@ form button {
     cursor: pointer;
 }
 
-form button:hover {
+form button:active {
     background-color: #0056b3;
 }
 
@@ -155,12 +155,8 @@ footer {
     font-size: 0.9em;
 }
 
-.copy-btn:hover {
-    background-color: #0056b3;
-}
-
 .copy-btn:active {
-    background-color: #003f7f;
+    background-color: #0056b3;
 }
 
 @media (max-width: 768px) {
