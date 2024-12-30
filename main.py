@@ -3,7 +3,7 @@ from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from ipaddress import ip_address
-import os, asyncio, uvicorn
+import os, uvicorn
 
 app = FastAPI()
 
@@ -29,14 +29,16 @@ def get_client_ip(request: Request) -> str:
 
 async def is_port_open(client_host, port):
     try:
-        await asyncio.wait_for(asyncio.open_connection(client_host, port), timeout=5)
-        return "open"
-    except asyncio.TimeoutError:
-        return "filtered"
-    except ConnectionRefusedError:
-        return "closed"
+        if ip_address(client_host).version == 6:
+            output = os.popen(f"nmap -sT -6 {client_host} -p {port}").read()
+        else:
+            output = os.popen(f"nmap -sT {client_host} -p {port}").read()
+        for line in output.splitlines():
+            if f"{port}/" in line:
+                return line.split()[1]
+        return "State not found"
     except Exception as e:
-        return f"error: {str(e)}"
+        return f"Error: {e}"
 
 @app.get("/favicon.ico", include_in_schema=False)
 async def favicon():
