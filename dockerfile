@@ -1,14 +1,23 @@
-FROM python:3.12-alpine
-
-RUN apk add --no-cache gcc musl-dev nmap
+FROM ghcr.io/astral-sh/uv:python3.12-alpine AS builder
 
 WORKDIR /app
 
-COPY requirements.txt /app
+COPY pyproject.toml uv.lock /app
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN uv sync --no-cache
+
+
+FROM python:3.12-alpine AS main
+
+WORKDIR /app
+
+COPY --from=builder /app/.venv /app/.venv
 
 COPY . /app
+
+ENV PATH="/app/.venv/bin:$PATH"
+
+ENV PYTHONDONTWRITEBYTECODE=1
 
 ENV PYTHONUNBUFFERED=1
 
