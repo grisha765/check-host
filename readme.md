@@ -34,7 +34,8 @@ python -m venv .venv
     ```bash
     podman run -d \
     --name check-host \
-    --privileged \
+    --cap-add=NET_RAW \
+    --cap-add=NET_ADMIN \
     --network host \
     -e PORT="8000" \
     ghcr.io/grisha765/check-host:latest
