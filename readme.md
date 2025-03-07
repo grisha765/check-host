@@ -6,20 +6,21 @@ A Python application using FastAPI to check your public IP address and verify if
 
 1. **Clone the repository**: Clone this repository using `git clone`.
 2. **Create Virtual Env**: Create a Python Virtual Env `venv` to download the required dependencies and libraries.
-3. **Download Dependencies**: Download the required dependencies into the Virtual Env `venv` using `pip`.
+3. **Download Dependencies**: Download the required dependencies into the Virtual Env `venv` using `uv`.
 
 ```shell
 git clone https://github.com/grisha765/check-host.git
 cd check-host
-python3 -m venv .venv
-.venv/bin/python -m pip install -r requirements.txt 
+python -m venv .venv
+.venv/bin/python -m pip install uv
+.venv/bin/python -m uv sync
 ```
 
 ### Deploy
 
 - Run:
     ```bash
-    PORT="8000" RELOAD="True" .venv/bin/python main.py
+    PORT="8000" RELOAD="True" uv run main.py
     ```
 
 #### Container
