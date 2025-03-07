@@ -9,6 +9,8 @@ RUN uv sync --no-cache
 
 FROM python:3.12-alpine AS main
 
+RUN apk add --no-cache nmap
+
 WORKDIR /app
 
 COPY --from=builder /app/.venv /app/.venv
