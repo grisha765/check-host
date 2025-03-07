@@ -11,3 +11,7 @@ dependencies = [
     "python-multipart>=0.0.20",
     "uvicorn>=0.34.0",
 ]
+
+[tool.pyright]
+venvPath = '.'
+venv = '.venv'
